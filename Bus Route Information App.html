@@ -1,0 +1,3313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BusRoute - Bus Route Information System</title>
+
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f5f7fb;
+
+    color: #172033;
+
+    transition: 0.3s;
+}
+
+body.dark {
+
+    background: #0f172a;
+
+    color: #e2e8f0;
+}
+
+button,
+input,
+select {
+
+    font-family: inherit;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    height: 70px;
+
+    padding:
+        0 7%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: white;
+
+    box-shadow:
+        0 3px 20px
+        rgba(0,0,0,0.08);
+}
+
+body.dark .navbar {
+
+    background: #111827;
+
+    box-shadow:
+        0 3px 20px
+        rgba(0,0,0,0.3);
+}
+
+
+.logo {
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    color: #2563eb;
+}
+
+.logo span {
+
+    color: #f97316;
+}
+
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.nav-links a {
+
+    color: #172033;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+body.dark .nav-links a {
+
+    color: white;
+}
+
+.nav-links a:hover {
+
+    color: #2563eb;
+}
+
+
+.nav-button {
+
+    border: none;
+
+    padding:
+        10px 17px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.login {
+
+    background: #2563eb;
+
+    color: white;
+}
+
+.logout {
+
+    background: #dc2626;
+
+    color: white;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+
+    min-height: 550px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        70px 7%;
+
+    color: white;
+
+    background:
+
+        linear-gradient(
+            rgba(15,23,42,0.82),
+            rgba(37,99,235,0.82)
+        ),
+
+        linear-gradient(
+            120deg,
+            #2563eb,
+            #7c3aed
+        );
+}
+
+.hero-content {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: auto;
+}
+
+.hero h1 {
+
+    font-size:
+        clamp(
+            40px,
+            6vw,
+            68px
+        );
+
+    line-height: 1.05;
+
+    margin-bottom: 20px;
+}
+
+.hero p {
+
+    font-size: 19px;
+
+    color: #dbeafe;
+
+    max-width: 700px;
+
+    margin-bottom: 35px;
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-container {
+
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,0.25);
+}
+
+.search-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr auto;
+
+    gap: 12px;
+}
+
+.search-grid input {
+
+    padding: 15px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.search-grid input:focus {
+
+    border-color:
+        #2563eb;
+}
+
+.search-button {
+
+    border: none;
+
+    background: #2563eb;
+
+    color: white;
+
+    padding:
+        0 25px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.search-button:hover {
+
+    background:
+        #1d4ed8;
+}
+
+
+/* =====================================================
+   QUICK ROUTES
+===================================================== */
+
+.quick-routes {
+
+    margin-top: 18px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.quick-route {
+
+    border: none;
+
+    padding:
+        9px 14px;
+
+    border-radius: 20px;
+
+    background: #dbeafe;
+
+    color: #1d4ed8;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.section {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding:
+        70px 20px;
+}
+
+.section-title {
+
+    text-align: center;
+
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+
+    font-size: 36px;
+
+    margin-bottom: 10px;
+}
+
+.section-title p {
+
+    color: #64748b;
+}
+
+body.dark
+.section-title p {
+
+    color: #94a3b8;
+}
+
+
+/* =====================================================
+   FEATURES
+===================================================== */
+
+.features {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 20px;
+}
+
+.feature-card {
+
+    background: white;
+
+    padding: 30px 20px;
+
+    border-radius: 16px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.06);
+
+    transition: 0.3s;
+}
+
+body.dark .feature-card {
+
+    background: #1e293b;
+}
+
+.feature-card:hover {
+
+    transform:
+        translateY(-8px);
+}
+
+.feature-icon {
+
+    font-size: 43px;
+
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+
+    margin-bottom: 10px;
+}
+
+
+/* =====================================================
+   ROUTE RESULTS
+===================================================== */
+
+.route-results {
+
+    display: grid;
+
+    gap: 20px;
+}
+
+.route-card {
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.07);
+
+    animation:
+        slideUp .4s;
+}
+
+body.dark .route-card {
+
+    background: #1e293b;
+}
+
+@keyframes slideUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+.route-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content:
+        space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+.route-name {
+
+    font-size: 21px;
+
+    font-weight: bold;
+}
+
+.route-number {
+
+    background:
+        #dbeafe;
+
+    color:
+        #1d4ed8;
+
+    padding:
+        6px 12px;
+
+    border-radius:
+        20px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.live {
+
+    background:
+        #dcfce7;
+
+    color:
+        #15803d;
+
+    padding:
+        6px 12px;
+
+    border-radius:
+        20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.not-live {
+
+    background:
+        #fef3c7;
+
+    color:
+        #92400e;
+
+    padding:
+        6px 12px;
+
+    border-radius:
+        20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+.route-info {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 15px;
+
+    padding:
+        20px 0;
+
+    border-top:
+        1px solid #e2e8f0;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+body.dark .route-info {
+
+    border-color:
+        #334155;
+}
+
+.info-box {
+
+    text-align: center;
+}
+
+.info-box strong {
+
+    display: block;
+
+    font-size: 18px;
+
+    margin-bottom: 5px;
+}
+
+.info-box span {
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+body.dark .info-box span {
+
+    color: #94a3b8;
+}
+
+
+.route-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.primary-btn {
+
+    border: none;
+
+    background:
+        #2563eb;
+
+    color: white;
+
+    padding:
+        11px 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.primary-btn:hover {
+
+    background:
+        #1d4ed8;
+}
+
+.secondary-btn {
+
+    border:
+        1px solid #2563eb;
+
+    background: transparent;
+
+    color: #2563eb;
+
+    padding:
+        10px 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+body.dark .secondary-btn {
+
+    color: #60a5fa;
+
+    border-color:
+        #60a5fa;
+}
+
+
+/* =====================================================
+   ROUTE DETAIL
+===================================================== */
+
+.route-detail {
+
+    display: none;
+}
+
+.route-detail.show {
+
+    display: block;
+}
+
+.detail-card {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.07);
+}
+
+body.dark .detail-card {
+
+    background: #1e293b;
+}
+
+
+.route-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content:
+        space-between;
+
+    margin-bottom: 30px;
+}
+
+.route-header h2 {
+
+    color:
+        #2563eb;
+}
+
+
+/* =====================================================
+   STOPS
+===================================================== */
+
+.stops {
+
+    position: relative;
+
+    margin:
+        20px 0;
+}
+
+.stop {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding:
+        13px 0;
+}
+
+.stop-dot {
+
+    width: 15px;
+
+    height: 15px;
+
+    background:
+        #2563eb;
+
+    border-radius:
+        50%;
+
+    flex-shrink: 0;
+}
+
+.stop-line {
+
+    position: absolute;
+
+    left: 7px;
+
+    top: 25px;
+
+    bottom: 25px;
+
+    width: 2px;
+
+    background:
+        #bfdbfe;
+
+    z-index: 0;
+}
+
+.stop-content {
+
+    position: relative;
+
+    z-index: 1;
+
+    background:
+        transparent;
+
+    flex: 1;
+}
+
+.stop-name {
+
+    font-weight: bold;
+}
+
+.stop-time {
+
+    color:
+        #64748b;
+
+    font-size: 13px;
+
+    margin-top: 3px;
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+.dashboard {
+
+    display: none;
+}
+
+.dashboard.show {
+
+    display: block;
+}
+
+.profile-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.06);
+
+    margin-bottom: 25px;
+}
+
+body.dark .profile-card {
+
+    background: #1e293b;
+}
+
+
+.dashboard-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.stat-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.06);
+}
+
+body.dark .stat-card {
+
+    background: #1e293b;
+}
+
+.stat-card h3 {
+
+    font-size: 32px;
+
+    color:
+        #2563eb;
+
+    margin-bottom: 5px;
+}
+
+
+/* =====================================================
+   FAVORITES
+===================================================== */
+
+.favorite-card {
+
+    background: white;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    margin-bottom: 12px;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.05);
+}
+
+body.dark .favorite-card {
+
+    background: #1e293b;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 3000;
+
+    background:
+        rgba(0,0,0,0.65);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal.show {
+
+    display: flex;
+}
+
+.modal-box {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: white;
+
+    color: #172033;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    animation:
+        zoomIn .3s;
+}
+
+body.dark .modal-box {
+
+    background: #1e293b;
+
+    color: white;
+}
+
+@keyframes zoomIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.8);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+}
+
+.close {
+
+    float: right;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group {
+
+    margin-bottom: 17px;
+}
+
+.form-group label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 7px;
+}
+
+.form-group input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border:
+        1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    outline: none;
+}
+
+.full-btn {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    background:
+        #2563eb;
+
+    color: white;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast {
+
+    position: fixed;
+
+    bottom: 25px;
+
+    right: 25px;
+
+    background:
+        #0f172a;
+
+    color: white;
+
+    padding:
+        15px 22px;
+
+    border-radius: 10px;
+
+    display: none;
+
+    z-index: 5000;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.3);
+}
+
+.toast.show {
+
+    display: block;
+
+    animation:
+        toastIn .3s;
+}
+
+@keyframes toastIn {
+
+    from {
+
+        transform:
+            translateX(100px);
+
+        opacity: 0;
+    }
+
+    to {
+
+        transform:
+            translateX(0);
+
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    background:
+        #020617;
+
+    color: white;
+
+    text-align: center;
+
+    padding:
+        40px 20px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:900px) {
+
+    .features {
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .search-grid {
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .route-info {
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .dashboard-grid {
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+
+@media(max-width:600px) {
+
+    .navbar {
+
+        padding:
+            0 20px;
+    }
+
+    .nav-links a {
+
+        display: none;
+    }
+
+    .hero {
+
+        padding:
+            60px 20px;
+    }
+
+    .hero h1 {
+
+        font-size: 42px;
+    }
+
+    .search-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .search-button {
+
+        padding: 14px;
+    }
+
+    .features {
+
+        grid-template-columns: 1fr;
+    }
+
+    .route-info {
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .dashboard-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .route-top {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .route-actions {
+
+        flex-direction: column;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        🚌 Bus<span>Route</span>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a onclick="goHome()">
+            Home
+        </a>
+
+        <a onclick="showDashboard()">
+            Dashboard
+        </a>
+
+        <a onclick="toggleDarkMode()">
+            🌙
+        </a>
+
+
+        <button
+            id="loginButton"
+            class="nav-button login"
+            onclick="openLogin()">
+
+            Login
+
+        </button>
+
+
+        <button
+            id="logoutButton"
+            class="nav-button logout"
+            onclick="logout()"
+            style="display:none">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section
+    class="hero"
+    id="home">
+
+    <div class="hero-content">
+
+        <h1>
+
+            Find Your Bus.
+            <br>
+
+            Know Your Route.
+
+        </h1>
+
+
+        <p>
+
+            Search bus routes, stops, timings,
+            fares and live route information
+            in one simple application.
+
+        </p>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-container">
+
+            <div class="search-grid">
+
+                <input
+                    id="source"
+                    type="text"
+                    placeholder="From - Chennai">
+
+
+                <input
+                    id="destination"
+                    type="text"
+                    placeholder="To - Bangalore">
+
+
+                <input
+                    id="routeNumber"
+                    type="text"
+                    placeholder="Route No.">
+
+
+                <button
+                    class="search-button"
+                    onclick="searchRoutes()">
+
+                    🔍 Search
+
+                </button>
+
+            </div>
+
+
+            <!-- QUICK SEARCH -->
+
+            <div class="quick-routes">
+
+                <button
+                    class="quick-route"
+                    onclick="quickSearch('Chennai','Bangalore')">
+
+                    Chennai → Bangalore
+
+                </button>
+
+
+                <button
+                    class="quick-route"
+                    onclick="quickSearch('Chennai','Coimbatore')">
+
+                    Chennai → Coimbatore
+
+                </button>
+
+
+                <button
+                    class="quick-route"
+                    onclick="quickSearch('Chennai','Madurai')">
+
+                    Chennai → Madurai
+
+                </button>
+
+
+                <button
+                    class="quick-route"
+                    onclick="quickSearch('Bangalore','Chennai')">
+
+                    Bangalore → Chennai
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            Smart Bus Information
+        </h2>
+
+        <p>
+            Everything you need before starting your journey
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🗺️
+            </div>
+
+            <h3>
+                Route Information
+            </h3>
+
+            <p>
+                Find complete bus routes
+                and important stops.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ⏰
+            </div>
+
+            <h3>
+                Timings
+            </h3>
+
+            <p>
+                Check departure and arrival
+                timings easily.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                💰
+            </div>
+
+            <h3>
+                Fare Information
+            </h3>
+
+            <p>
+                Know estimated ticket fares
+                before travelling.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📍
+            </div>
+
+            <h3>
+                Live Status
+            </h3>
+
+            <p>
+                View simulated live route
+                status.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SEARCH RESULTS
+===================================================== -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            Bus Routes
+        </h2>
+
+        <p id="resultMessage">
+            Search for a route
+        </p>
+
+    </div>
+
+
+    <div
+        class="route-results"
+        id="routeResults">
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ROUTE DETAIL
+===================================================== -->
+
+<section
+    class="section route-detail"
+    id="routeDetail">
+
+    <div class="detail-card">
+
+        <div class="route-header">
+
+            <div>
+
+                <h2 id="detailTitle">
+                    Route
+                </h2>
+
+                <p id="detailSubtitle">
+                    Route information
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-btn"
+                onclick="closeRoute()">
+
+                Close
+
+            </button>
+
+        </div>
+
+
+        <h3 style="margin-bottom:15px;">
+
+            🛣️ Bus Stops
+
+        </h3>
+
+
+        <div
+            class="stops"
+            id="stopList">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    class="section dashboard"
+    id="dashboard">
+
+    <div class="section-title">
+
+        <h2>
+            👤 User Dashboard
+        </h2>
+
+        <p>
+            Manage your saved routes
+        </p>
+
+    </div>
+
+
+    <div
+        class="profile-card"
+        id="profile">
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="stat-card">
+
+            <h3 id="routeCount">
+                0
+            </h3>
+
+            <p>
+                Routes Searched
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3 id="favoriteCount">
+                0
+            </h3>
+
+            <p>
+                Favorite Routes
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3 id="recentCount">
+                0
+            </h3>
+
+            <p>
+                Recent Searches
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h2 style="margin-bottom:20px;">
+
+        ⭐ Favorite Routes
+
+    </h2>
+
+
+    <div
+        id="favoriteList">
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LOGIN MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="loginModal">
+
+    <div class="modal-box">
+
+        <span
+            class="close"
+            onclick="closeModal('loginModal')">
+
+            ×
+
+        </span>
+
+
+        <h2 style="margin-bottom:25px;">
+
+            🔐 Login to BusRoute
+
+        </h2>
+
+
+        <div class="form-group">
+
+            <label>
+                Email
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                value="user@gmail.com">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                value="123456">
+
+        </div>
+
+
+        <button
+            class="full-btn"
+            onclick="login()">
+
+            Login
+
+        </button>
+
+
+        <p
+            style="
+            text-align:center;
+            margin-top:15px;
+            color:#64748b;">
+
+            Demo Login
+
+            <br>
+
+            user@gmail.com / 123456
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    class="toast"
+    id="toast">
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <h2>
+        🚌 BusRoute
+    </h2>
+
+    <p style="margin-top:10px;">
+
+        Smart Bus Route Information System
+
+    </p>
+
+    <p style="margin-top:10px;">
+
+        Web Technology Project © 2026
+
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   BUS DATABASE
+===================================================== */
+
+const busRoutes = [
+
+    {
+        id: 1,
+
+        route:
+            "21G",
+
+        name:
+            "Chennai Central → Tambaram",
+
+        from:
+            "Chennai",
+
+        to:
+            "Tambaram",
+
+        distance:
+            "32 km",
+
+        duration:
+            "1h 20m",
+
+        fare:
+            "₹25",
+
+        frequency:
+            "Every 15 min",
+
+        status:
+            "Live",
+
+        type:
+            "City Bus",
+
+        stops: [
+
+            ["Chennai Central", "06:00 AM"],
+
+            ["Park Town", "06:10 AM"],
+
+            ["Guindy", "06:30 AM"],
+
+            ["Saidapet", "06:40 AM"],
+
+            ["Velachery", "06:55 AM"],
+
+            ["Pallavaram", "07:10 AM"],
+
+            ["Tambaram", "07:20 AM"]
+
+        ]
+
+    },
+
+
+    {
+        id: 2,
+
+        route:
+            "500",
+
+        name:
+            "Chennai → Bangalore",
+
+        from:
+            "Chennai",
+
+        to:
+            "Bangalore",
+
+        distance:
+            "350 km",
+
+        duration:
+            "7h",
+
+        fare:
+            "₹650",
+
+        frequency:
+            "Every 1 hour",
+
+        status:
+            "Live",
+
+        type:
+            "Express",
+
+        stops: [
+
+            ["Chennai", "06:00 AM"],
+
+            ["Sriperumbudur", "06:45 AM"],
+
+            ["Vellore", "08:30 AM"],
+
+            ["Krishnagiri", "11:00 AM"],
+
+            ["Hosur", "12:00 PM"],
+
+            ["Electronic City", "12:45 PM"],
+
+            ["Bangalore", "01:00 PM"]
+
+        ]
+
+    },
+
+
+    {
+        id: 3,
+
+        route:
+            "SETC 123",
+
+        name:
+            "Chennai → Coimbatore",
+
+        from:
+            "Chennai",
+
+        to:
+            "Coimbatore",
+
+        distance:
+            "510 km",
+
+        duration:
+            "9h",
+
+        fare:
+            "₹750",
+
+        frequency:
+            "Every 2 hours",
+
+        status:
+            "Scheduled",
+
+        type:
+            "Express",
+
+        stops: [
+
+            ["Chennai", "08:00 AM"],
+
+            ["Chengalpattu", "09:00 AM"],
+
+            ["Villupuram", "11:00 AM"],
+
+            ["Salem", "02:00 PM"],
+
+            ["Erode", "03:30 PM"],
+
+            ["Tiruppur", "04:30 PM"],
+
+            ["Coimbatore", "05:00 PM"]
+
+        ]
+
+    },
+
+
+    {
+        id: 4,
+
+        route:
+            "SETC 102",
+
+        name:
+            "Chennai → Madurai",
+
+        from:
+            "Chennai",
+
+        to:
+            "Madurai",
+
+        distance:
+            "460 km",
+
+        duration:
+            "8h 30m",
+
+        fare:
+            "₹680",
+
+        frequency:
+            "Every 2 hours",
+
+        status:
+            "Live",
+
+        type:
+            "Express",
+
+        stops: [
+
+            ["Chennai", "07:00 AM"],
+
+            ["Chengalpattu", "08:00 AM"],
+
+            ["Tindivanam", "09:30 AM"],
+
+            ["Villupuram", "10:30 AM"],
+
+            ["Trichy", "02:00 PM"],
+
+            ["Dindigul", "03:30 PM"],
+
+            ["Madurai", "04:30 PM"]
+
+        ]
+
+    },
+
+
+    {
+        id: 5,
+
+        route:
+            "500C",
+
+        name:
+            "Bangalore → Chennai",
+
+        from:
+            "Bangalore",
+
+        to:
+            "Chennai",
+
+        distance:
+            "350 km",
+
+        duration:
+            "7h",
+
+        fare:
+            "₹650",
+
+        frequency:
+            "Every 1 hour",
+
+        status:
+            "Live",
+
+        type:
+            "Express",
+
+        stops: [
+
+            ["Bangalore", "06:00 AM"],
+
+            ["Hosur", "07:00 AM"],
+
+            ["Krishnagiri", "08:00 AM"],
+
+            ["Vellore", "10:30 AM"],
+
+            ["Sriperumbudur", "12:00 PM"],
+
+            ["Chennai", "01:00 PM"]
+
+        ]
+
+    },
+
+
+    {
+        id: 6,
+
+        route:
+            "TN-01",
+
+        name:
+            "Chennai → Pondicherry",
+
+        from:
+            "Chennai",
+
+        to:
+            "Pondicherry",
+
+        distance:
+            "160 km",
+
+        duration:
+            "3h",
+
+        fare:
+            "₹250",
+
+        frequency:
+            "Every 30 min",
+
+        status:
+            "Live",
+
+        type:
+            "AC Bus",
+
+        stops: [
+
+            ["Chennai", "08:00 AM"],
+
+            ["Sholinganallur", "08:30 AM"],
+
+            ["Mahabalipuram", "09:30 AM"],
+
+            ["Kalpakkam", "10:00 AM"],
+
+            ["Marakkanam", "10:45 AM"],
+
+            ["Pondicherry", "11:00 AM"]
+
+        ]
+
+    }
+
+];
+
+
+/* =====================================================
+   USER
+===================================================== */
+
+let currentUser =
+    JSON.parse(
+        localStorage.getItem(
+            "busrouteUser"
+        )
+    );
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+window.onload = function() {
+
+    updateLoginUI();
+
+    displayRoutes(busRoutes);
+
+    updateDashboard();
+
+};
+
+
+/* =====================================================
+   DISPLAY ROUTES
+===================================================== */
+
+function displayRoutes(
+    routes
+) {
+
+    const container =
+        document.getElementById(
+            "routeResults"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        routes.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="feature-card">
+
+                <h3>
+                    No Route Found
+                </h3>
+
+                <p>
+                    Try another source,
+                    destination or route number.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    document.getElementById(
+        "resultMessage"
+    ).innerText =
+        `${routes.length} route(s) found`;
+
+
+    routes.forEach(
+        route => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "route-card";
+
+
+            card.innerHTML = `
+
+                <div class="route-top">
+
+                    <div>
+
+                        <div class="route-name">
+
+                            ${route.name}
+
+                        </div>
+
+                        <span class="route-number">
+
+                            Route ${route.route}
+
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        ${
+                            route.status === "Live"
+
+                            ?
+
+                            `
+                            <span class="live">
+                                ● LIVE
+                            </span>
+                            `
+
+                            :
+
+                            `
+                            <span class="not-live">
+                                ● SCHEDULED
+                            </span>
+                            `
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="route-info">
+
+                    <div class="info-box">
+
+                        <strong>
+                            ${route.distance}
+                        </strong>
+
+                        <span>
+                            Distance
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            ${route.duration}
+                        </strong>
+
+                        <span>
+                            Journey
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            ${route.fare}
+                        </strong>
+
+                        <span>
+                            Fare
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            ${route.frequency}
+                        </strong>
+
+                        <span>
+                            Frequency
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="route-actions">
+
+                    <button
+                        class="primary-btn"
+                        onclick="viewRoute(${route.id})">
+
+                        🗺️ View Route
+
+                    </button>
+
+
+                    <button
+                        class="secondary-btn"
+                        onclick="favoriteRoute(${route.id})">
+
+                        ⭐ Favorite
+
+                    </button>
+
+
+                    <button
+                        class="secondary-btn"
+                        onclick="shareRoute(${route.id})">
+
+                        📤 Share
+
+                    </button>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function searchRoutes() {
+
+    const source =
+        document
+        .getElementById(
+            "source"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const destination =
+        document
+        .getElementById(
+            "destination"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const routeNumber =
+        document
+        .getElementById(
+            "routeNumber"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const results =
+        busRoutes.filter(
+            route => {
+
+                const sourceMatch =
+
+                    !source ||
+
+                    route.from
+                    .toLowerCase()
+                    .includes(source);
+
+
+                const destinationMatch =
+
+                    !destination ||
+
+                    route.to
+                    .toLowerCase()
+                    .includes(destination);
+
+
+                const routeMatch =
+
+                    !routeNumber ||
+
+                    route.route
+                    .toLowerCase()
+                    .includes(routeNumber);
+
+
+                return (
+
+                    sourceMatch &&
+                    destinationMatch &&
+                    routeMatch
+
+                );
+
+            }
+        );
+
+
+    saveRecentSearch(
+        source,
+        destination
+    );
+
+
+    displayRoutes(
+        results
+    );
+
+
+    document
+        .getElementById(
+            "routeResults"
+        )
+        .scrollIntoView({
+            behavior:
+                "smooth"
+        });
+
+}
+
+
+/* =====================================================
+   QUICK SEARCH
+===================================================== */
+
+function quickSearch(
+    source,
+    destination
+) {
+
+    document.getElementById(
+        "source"
+    ).value =
+        source;
+
+
+    document.getElementById(
+        "destination"
+    ).value =
+        destination;
+
+
+    searchRoutes();
+
+}
+
+
+/* =====================================================
+   VIEW ROUTE
+===================================================== */
+
+function viewRoute(
+    id
+) {
+
+    const route =
+        busRoutes.find(
+            r => r.id === id
+        );
+
+
+    if (!route) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "detailTitle"
+    ).innerText =
+        route.name;
+
+
+    document.getElementById(
+        "detailSubtitle"
+    ).innerText =
+
+        `Route ${route.route} • ${route.type} • ${route.fare}`;
+
+
+    const list =
+        document.getElementById(
+            "stopList"
+        );
+
+
+    list.innerHTML = `
+
+        <div class="stop-line"></div>
+
+    `;
+
+
+    route.stops.forEach(
+        stop => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "stop";
+
+
+            div.innerHTML = `
+
+                <div class="stop-dot">
+                </div>
+
+                <div class="stop-content">
+
+                    <div class="stop-name">
+
+                        ${stop[0]}
+
+                    </div>
+
+                    <div class="stop-time">
+
+                        🕐 ${stop[1]}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                div
+            );
+
+        }
+    );
+
+
+    document
+        .getElementById(
+            "routeDetail"
+        )
+        .classList.add(
+            "show"
+        );
+
+
+    document
+        .getElementById(
+            "routeDetail"
+        )
+        .scrollIntoView({
+            behavior:
+                "smooth"
+        });
+
+}
+
+
+/* =====================================================
+   CLOSE ROUTE
+===================================================== */
+
+function closeRoute() {
+
+    document
+        .getElementById(
+            "routeDetail"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login() {
+
+    const email =
+        document
+        .getElementById(
+            "email"
+        )
+        .value;
+
+
+    const password =
+        document
+        .getElementById(
+            "password"
+        )
+        .value;
+
+
+    if (
+
+        email ===
+            "user@gmail.com"
+
+        &&
+
+        password ===
+            "123456"
+
+    ) {
+
+
+        currentUser = {
+
+            name:
+                "Narotam",
+
+            email:
+                email
+
+        };
+
+
+        localStorage.setItem(
+
+            "busrouteUser",
+
+            JSON.stringify(
+                currentUser
+            )
+
+        );
+
+
+        closeModal(
+            "loginModal"
+        );
+
+
+        updateLoginUI();
+
+        updateDashboard();
+
+
+        toast(
+            "Login successful!"
+        );
+
+
+    } else {
+
+        toast(
+            "Invalid email or password!"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "busrouteUser"
+    );
+
+
+    currentUser = null;
+
+
+    updateLoginUI();
+
+    updateDashboard();
+
+
+    toast(
+        "Logged out successfully!"
+    );
+
+}
+
+
+/* =====================================================
+   LOGIN UI
+===================================================== */
+
+function updateLoginUI() {
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+
+    if (currentUser) {
+
+        loginButton.style.display =
+            "none";
+
+        logoutButton.style.display =
+            "block";
+
+    } else {
+
+        loginButton.style.display =
+            "block";
+
+        logoutButton.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   OPEN LOGIN
+===================================================== */
+
+function openLogin() {
+
+    document
+        .getElementById(
+            "loginModal"
+        )
+        .classList.add(
+            "show"
+        );
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal(
+    id
+) {
+
+    document
+        .getElementById(
+            id
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+/* =====================================================
+   FAVORITE ROUTE
+===================================================== */
+
+function favoriteRoute(
+    id
+) {
+
+    if (!currentUser) {
+
+        toast(
+            "Login to save favorite routes!"
+        );
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    let favorites =
+        JSON.parse(
+            localStorage.getItem(
+                "busrouteFavorites"
+            )
+        ) || [];
+
+
+    if (
+        favorites.includes(id)
+    ) {
+
+        favorites =
+            favorites.filter(
+                item =>
+                    item !== id
+            );
+
+
+        toast(
+            "Removed from favorites"
+        );
+
+    } else {
+
+        favorites.push(id);
+
+
+        toast(
+            "Route added to favorites!"
+        );
+
+    }
+
+
+    localStorage.setItem(
+
+        "busrouteFavorites",
+
+        JSON.stringify(
+            favorites
+        )
+
+    );
+
+
+    updateDashboard();
+
+}
+
+
+/* =====================================================
+   SHARE ROUTE
+===================================================== */
+
+function shareRoute(
+    id
+) {
+
+    const route =
+        busRoutes.find(
+            r => r.id === id
+        );
+
+
+    const text =
+        `BusRoute: ${route.name} | Route ${route.route} | Fare ${route.fare}`;
+
+
+    if (
+        navigator.share
+    ) {
+
+        navigator.share({
+
+            title:
+                "BusRoute",
+
+            text:
+                text
+
+        });
+
+    } else {
+
+        navigator.clipboard
+        .writeText(
+            text
+        );
+
+
+        toast(
+            "Route information copied!"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RECENT SEARCH
+===================================================== */
+
+function saveRecentSearch(
+    source,
+    destination
+) {
+
+    if (
+        !source &&
+        !destination
+    ) {
+
+        return;
+
+    }
+
+
+    let searches =
+        JSON.parse(
+            localStorage.getItem(
+                "busrouteRecent"
+            )
+        ) || [];
+
+
+    searches.unshift({
+
+        source:
+            source,
+
+        destination:
+            destination,
+
+        time:
+            new Date()
+            .toLocaleString()
+
+    });
+
+
+    searches =
+        searches.slice(
+            0,
+            10
+        );
+
+
+    localStorage.setItem(
+
+        "busrouteRecent",
+
+        JSON.stringify(
+            searches
+        )
+
+    );
+
+
+    updateDashboard();
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function showDashboard() {
+
+    if (!currentUser) {
+
+        toast(
+            "Please login first!"
+        );
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .classList.add(
+            "show"
+        );
+
+
+    updateDashboard();
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .scrollIntoView({
+            behavior:
+                "smooth"
+        });
+
+}
+
+
+/* =====================================================
+   UPDATE DASHBOARD
+===================================================== */
+
+function updateDashboard() {
+
+    const dashboard =
+        document.getElementById(
+            "dashboard"
+        );
+
+
+    if (!currentUser) {
+
+        dashboard.classList.remove(
+            "show"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "profile"
+    ).innerHTML = `
+
+        <h3>
+            👤 ${currentUser.name}
+        </h3>
+
+        <p>
+            ${currentUser.email}
+        </p>
+
+        <p style="margin-top:8px;color:#64748b;">
+
+            Welcome to your BusRoute dashboard.
+
+        </p>
+
+    `;
+
+
+    let favorites =
+        JSON.parse(
+            localStorage.getItem(
+                "busrouteFavorites"
+            )
+        ) || [];
+
+
+    let recent =
+        JSON.parse(
+            localStorage.getItem(
+                "busrouteRecent"
+            )
+        ) || [];
+
+
+    document.getElementById(
+        "favoriteCount"
+    ).innerText =
+        favorites.length;
+
+
+    document.getElementById(
+        "recentCount"
+    ).innerText =
+        recent.length;
+
+
+    document.getElementById(
+        "routeCount"
+    ).innerText =
+        recent.length;
+
+
+    const list =
+        document.getElementById(
+            "favoriteList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    if (
+        favorites.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <div class="feature-card">
+
+                <h3>
+                    No Favorite Routes
+                </h3>
+
+                <p>
+                    Click ⭐ Favorite on
+                    any route to save it.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    favorites.forEach(
+        id => {
+
+            const route =
+                busRoutes.find(
+                    r => r.id === id
+                );
+
+
+            if (!route) {
+
+                return;
+
+            }
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "favorite-card";
+
+
+            card.innerHTML = `
+
+                <div>
+
+                    <strong>
+                        ${route.name}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        Route ${route.route}
+                        • ${route.fare}
+                    </small>
+
+                </div>
+
+
+                <button
+                    class="primary-btn"
+                    onclick="viewRoute(${route.id})">
+
+                    View
+
+                </button>
+
+            `;
+
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleDarkMode() {
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+
+    localStorage.setItem(
+
+        "busrouteDark",
+
+        document.body.classList.contains(
+            "dark"
+        )
+
+    );
+
+}
+
+
+if (
+
+    localStorage.getItem(
+        "busrouteDark"
+    ) === "true"
+
+) {
+
+    document.body.classList.add(
+        "dark"
+    );
+
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+function goHome() {
+
+    document
+        .getElementById(
+            "home"
+        )
+        .scrollIntoView({
+            behavior:
+                "smooth"
+        });
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function toast(
+    message
+) {
+
+    const element =
+        document.getElementById(
+            "toast"
+        );
+
+
+    element.innerText =
+        message;
+
+
+    element.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function() {
+
+            element.classList.remove(
+                "show"
+            );
+
+        },
+        3000
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>
